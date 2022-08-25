@@ -162,7 +162,7 @@ document.onmousedown = function(event) {
         if (item.isFreezed) return;
 
         images.forEach((el) => {
-            el.style.zIndex = '0';
+            if (!el.isFreezed) el.style.zIndex = '0';
         })
         item.style.zIndex = '100'; // кликабельный элемент всегда будет сверху
 
@@ -239,15 +239,16 @@ function checkPosition(item) {
         (Math.abs(item.getBoundingClientRect().top - wrapper.getBoundingClientRect().top - imagesPosition[index].top) < 3)) {
         // console.log('Match!!', item.getBoundingClientRect().left, imagesPosition[index].left);
         item.isFreezed = true;
+        item.style.zIndex = '-1';
         setStaticPosition(index);
-        scoreSound.play();
     }
 }
 
 function setStaticPosition(index) {
     images[index].style.left = imagesPosition[index].left + 'px';
     images[index].style.top = imagesPosition[index].top + 'px';
-    console.log(typeof(imagesPosition[index].left + 'px'))
+    scoreSound.play();
+    console.log(typeof(imagesPosition[index].left + 'px'));
 }
 
 function getAnimationDuration() {
