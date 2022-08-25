@@ -203,14 +203,16 @@ document.onmousedown = function(event) {
 
         event.currentTarget.onmouseup = function() {
             checkPosition(item);
-            checkGameStatus()
+            checkGameStatus();
             document.removeEventListener('mousemove', onMouseMove);
-            item.onmouseup = null;
+            // item.onmouseup = null;
+            event.currentTarget.onmouseup = null;
+
 
 
 
         };
-    }
+    } else document.onmouseup = null;
 
 
 }
@@ -224,7 +226,16 @@ function checkGameStatus() {
         const finalImage = document.querySelector('.final');
         finalImage.style.zIndex = '100';
         finalImage.style.opacity = '1.0';
-        redemption.play();
+        setTimeout(() => {
+            redemption.play();
+            document.onmouseup = null;
+            // images.forEach((el) => {
+            //     el.onmouseup = function() { return false; };
+            //     document.onmouseup = null;
+            // })
+        }, 400);
+
+
     }
 
 
