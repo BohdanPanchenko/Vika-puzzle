@@ -95,11 +95,14 @@ const imagesPosition = [{
     }
 
 ]
+const scoreSound = new Audio('./score.mp3');
+const redemption = new Audio('./redemption');
 
 const animations = ['slide-in-blurred-top', 'slide-in-blurred-tr', 'slide-in-blurred-right', 'slide-in-blurred-br', 'slide-in-blurred-bottom', 'slide-in-blurred-bl', 'slide-in-blurred-left', 'slide-in-blurred-tl'];
 
 const maxItemLength = 200;
 document.body.querySelector('.background').ondragstart = function() { return false; };
+document.body.querySelector('.final').ondragstart = function() { return false; };
 
 renderItems();
 
@@ -221,6 +224,7 @@ function checkGameStatus() {
         const finalImage = document.querySelector('.final');
         finalImage.style.zIndex = '100';
         finalImage.style.opacity = '1.0';
+        redemption.play();
     }
 
 
@@ -236,6 +240,7 @@ function checkPosition(item) {
         // console.log('Match!!', item.getBoundingClientRect().left, imagesPosition[index].left);
         item.isFreezed = true;
         setStaticPosition(index);
+        scoreSound.play();
     }
 }
 
