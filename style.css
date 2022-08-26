@@ -37,12 +37,7 @@ body {
 }
 
 
-/* .start-area {
-    width: 640px;
-    height: 640px;
-    border-radius: 20px;
-    border: 6px dashed aquamarine;
-} */
+
 
 img:first-child {
     user-select: none;
@@ -52,4 +47,5 @@ img:first-child {
 
 .item {
     cursor: pointer;
+    user-select: none;
 }
