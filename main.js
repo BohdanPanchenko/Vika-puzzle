@@ -206,7 +206,7 @@ document.onmousedown = function(event) {
             checkGameStatus();
             document.removeEventListener('mousemove', onMouseMove);
             // item.onmouseup = null;
-            event.currentTarget.onmouseup = null;
+//             event.currentTarget.onmouseup = null;
 
 
 
