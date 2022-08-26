@@ -101,8 +101,9 @@ const redemption = new Audio('./redemption.mp3');
 const animations = ['slide-in-blurred-top', 'slide-in-blurred-tr', 'slide-in-blurred-right', 'slide-in-blurred-br', 'slide-in-blurred-bottom', 'slide-in-blurred-bl', 'slide-in-blurred-left', 'slide-in-blurred-tl'];
 
 const maxItemLength = 200;
-document.body.querySelector('.background').ondragstart = function() { return false; };
-document.body.querySelector('.final').ondragstart = function() { return false; };
+// document.body.querySelector('.background').ondragstart = function() { return false; };
+// document.body.querySelector('.final').ondragstart = function() { return false; };
+document.body.ondragstart = function() { return false; };
 
 renderItems();
 
