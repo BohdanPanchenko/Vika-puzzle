@@ -227,6 +227,7 @@ function checkGameStatus() {
         const finalImage = document.querySelector('.final');
         finalImage.style.zIndex = '100';
         finalImage.style.opacity = '1.0';
+        finalImage.style.visibility = 'visible';
         setTimeout(() => {
             redemption.play();
             document.onmouseup = null;
