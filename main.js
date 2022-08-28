@@ -256,8 +256,8 @@ function checkPosition(item) {
     const wrapper = document.querySelector('.wrapper');
     if (index === -1) { console.log('not Found'); return }
 
-    if ((Math.abs(item.getBoundingClientRect().left - wrapper.getBoundingClientRect().left - imagesPosition[index].left) < 3) &&
-        (Math.abs(item.getBoundingClientRect().top - wrapper.getBoundingClientRect().top - imagesPosition[index].top) < 3)) {
+    if ((Math.abs(item.getBoundingClientRect().left - wrapper.getBoundingClientRect().left - imagesPosition[index].left) < 4) &&
+        (Math.abs(item.getBoundingClientRect().top - wrapper.getBoundingClientRect().top - imagesPosition[index].top) < 4)) {
         // console.log('Match!!', item.getBoundingClientRect().left, imagesPosition[index].left);
         item.isFreezed = true;
         item.style.zIndex = '-1';
