@@ -130,7 +130,7 @@ function renderItems() {
 
         img.classList.add('item');
         setAnimation(img);
-        document.querySelector('.wrapper').appendChild(el)
+        document.querySelector('.wrapper').appendChild(img);
         images.push(img);
     }
 
