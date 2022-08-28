@@ -1,7 +1,17 @@
+const bg = document.querySelector('.background');
+const final = document.querySelector('.final');
+bg.style.width = ((bg.naturalWidth / 1440) * 100) + 'vw';
+final.style.width = ((bg.naturalWidth / 1440) * 100) + 'vw';
+
+
+
+
 const body = document.body;
+const wrapper = document.querySelector('.wrapper');
 const images = [];
 const rowNumber = 5;
 const columnNumber = 5;
+const imageNaturalSize = 640;
 const imagesPosition = [{
         left: 4,
         top: 4
@@ -95,6 +105,10 @@ const imagesPosition = [{
     }
 
 ]
+imagesPosition.forEach(el => {
+    el.left = el.left / imageNaturalSize * 100;
+    el.top = el.top / imageNaturalSize * 100;
+})
 const scoreSound = new Audio('./score.mp3');
 const redemption = new Audio('./redemption.mp3');
 
@@ -110,18 +124,14 @@ renderItems();
 function renderItems() {
     for (let i = 0; i < rowNumber * columnNumber; i++) {
         const img = new Image();
-        const wrapper = document.querySelector('.wrapper');
+        // const wrapper = document.querySelector('.wrapper');
         img.src = './images/' + (i + 1) + '.png';
         img.style.position = 'absolute';
         img.isFreezed = false;
-        // const width = window.innerWidth;
-        // const height = window.innerHeight;
 
         const width = wrapper.offsetWidth;
         const height = wrapper.offsetHeight;
 
-        // img.style.left = `${getRandomIntInclusive(0, width - maxItemLength*2)}px`;
-        // img.style.top = `${getRandomIntInclusive(0, height - maxItemLength*2)}px`;
 
         img.style.left = `${getRandomIntInclusive(-500, width + 300 )}px`;
         img.style.top = `${getRandomIntInclusive(-100, height )}px`;
@@ -130,24 +140,40 @@ function renderItems() {
 
         img.classList.add('item');
 
-        images.push(img);
+        img.onload = function() {
+            img.style.width = ((img.naturalWidth / imageNaturalSize) * 100) + '%';
+            // img.style.height = ((img.naturalHeight / window.innerHeight) * 100) + '%';
+            images.push(img);
+            setAnimation(img);
+            // document.querySelector('.wrapper').appendChild(img);
+            wrapper.appendChild(img);
+        }
+
     }
 
-    setTimeout(() => {
-        images.forEach((el) => {
-            document.querySelector('.wrapper').appendChild(el);
-            // body.appendChild(el);
-        })
-        setAnimations();
-    }, 300)
+    // setTimeout(() => {
+    //     //     // images.forEach((el) => {
+    //     //     //     document.querySelector('.wrapper').appendChild(el);
+    //     //     //     // body.appendChild(el);
+    //     // //     // })
+    //      setAnimations();
+    // }, 300)
 
 }
 
-function setAnimations() {
-    images.forEach(el => {
-        el.style.animationDuration = `${getAnimationDuration()}s`;
-        el.style.animationName = `${animations[getRandomIntInclusive(0, animations.length - 1 )]}`;
-    })
+// function setAnimations() {
+//     images.forEach(el => {
+//         el.style.animationDuration = `${getAnimationDuration()}s`;
+//         el.style.animationName = `${animations[getRandomIntInclusive(0, animations.length - 1 )]}`;
+//     })
+// }
+
+
+function setAnimation(item) {
+
+    item.style.animationDuration = `${getAnimationDuration()}s`;
+    item.style.animationName = `${animations[getRandomIntInclusive(0, animations.length - 1 )]}`;
+
 }
 
 // setTimeout(() => {
@@ -179,9 +205,9 @@ document.onmousedown = function(event) {
 
         function moveAt(pageX, pageY) {
 
-            if (document.querySelector('.wrapper').contains(item)) {
-                item.style.left = (pageX - shiftX) - document.querySelector('.wrapper').getBoundingClientRect().left + 'px';
-                item.style.top = (pageY - shiftY) - document.querySelector('.wrapper').getBoundingClientRect().top + 'px';
+            if (wrapper.contains(item)) {
+                item.style.left = (pageX - shiftX) - wrapper.getBoundingClientRect().left + 'px';
+                item.style.top = (pageY - shiftY) - wrapper.getBoundingClientRect().top + 'px';
             } else {
                 item.style.left = pageX - shiftX + 'px';
                 item.style.top = pageY - shiftY + 'px';
@@ -207,13 +233,13 @@ document.onmousedown = function(event) {
             checkGameStatus();
             document.removeEventListener('mousemove', onMouseMove);
             // item.onmouseup = null;
-//             event.currentTarget.onmouseup = null;
+            // event.currentTarget.onmouseup = function() { return false };
 
 
 
 
         };
-    } else document.onmouseup = null;
+    } else document.onmouseup = function() { return false };
 
 
 }
@@ -227,7 +253,7 @@ function checkGameStatus() {
         const finalImage = document.querySelector('.final');
         finalImage.style.zIndex = '100';
         finalImage.style.opacity = '1.0';
-        finalImage.style.visibility = 'visible';
+        30 + 'px';
         setTimeout(() => {
             redemption.play();
             document.onmouseup = null;
@@ -245,12 +271,15 @@ function checkGameStatus() {
 
 function checkPosition(item) {
     const index = images.indexOf(item);
-    const wrapper = document.querySelector('.wrapper');
+    // const wrapper = document.querySelector('.wrapper');
+    const wrapperX = wrapper.getBoundingClientRect().left;
+    const wrapperY = wrapper.getBoundingClientRect().top;
     if (index === -1) { console.log('not Found'); return }
 
-    if ((Math.abs(item.getBoundingClientRect().left - wrapper.getBoundingClientRect().left - imagesPosition[index].left) < 3) &&
-        (Math.abs(item.getBoundingClientRect().top - wrapper.getBoundingClientRect().top - imagesPosition[index].top) < 3)) {
-        // console.log('Match!!', item.getBoundingClientRect().left, imagesPosition[index].left);
+
+    if ((Math.abs(item.getBoundingClientRect().left - wrapperX - (wrapper.offsetWidth * imagesPosition[index].left / 100)) < 3) &&
+        (Math.abs(item.getBoundingClientRect().top - wrapperY - (wrapper.offsetHeight * imagesPosition[index].top / 100)) < 3)) {
+
         item.isFreezed = true;
         item.style.zIndex = '-1';
         setStaticPosition(index);
@@ -258,11 +287,29 @@ function checkPosition(item) {
 }
 
 function setStaticPosition(index) {
-    images[index].style.left = imagesPosition[index].left + 'px';
-    images[index].style.top = imagesPosition[index].top + 'px';
+    images[index].style.left = imagesPosition[index].left + '%';
+    images[index].style.top = imagesPosition[index].top + '%';
     scoreSound.play();
-    console.log(typeof(imagesPosition[index].left + 'px'));
 }
+
+
+
+function dragMove(e) {
+    if (e.target.isFreezed) return;
+    e.preventDefault();
+    const touch = e.targetTouches[0];
+    const target = e.target;
+
+    target.style.left = `${touch.pageX - wrapper.getBoundingClientRect().left - (target.offsetWidth / 2)}px`;
+    target.style.top = `${touch.pageY - wrapper.getBoundingClientRect().top - (target.offsetHeight / 2)}px`;
+
+
+    const itemCopy = Object.assign(target);
+    console.log(itemCopy);
+    checkPosition(target);
+
+}
+
 
 function getAnimationDuration() {
     return String(Math.random() + 0.7).slice(0, 7)
@@ -274,4 +321,11 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
 }
 
+function is_touch_device() {
+    return !!('ontouchstart' in window);
+}
+
+if (is_touch_device()) {
+    wrapper.addEventListener('touchmove', dragMove);
+}
 // export { images };
