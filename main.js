@@ -129,26 +129,34 @@ function renderItems() {
 
 
         img.classList.add('item');
-
+        setAnimation(img);
+        document.querySelector('.wrapper').appendChild(el)
         images.push(img);
     }
 
-    setTimeout(() => {
-        images.forEach((el) => {
-            document.querySelector('.wrapper').appendChild(el);
-            // body.appendChild(el);
-        })
-        setAnimations();
-    }, 300)
+//     setTimeout(() => {
+//         images.forEach((el) => {
+//             document.querySelector('.wrapper').appendChild(el);
+//             // body.appendChild(el);
+//         })
+//         setAnimations();
+//     }, 300)
 
 }
 
-function setAnimations() {
-    images.forEach(el => {
-        el.style.animationDuration = `${getAnimationDuration()}s`;
-        el.style.animationName = `${animations[getRandomIntInclusive(0, animations.length - 1 )]}`;
-    })
-}
+// function setAnimations() {
+//     images.forEach(el => {
+//         el.style.animationDuration = `${getAnimationDuration()}s`;
+//         el.style.animationName = `${animations[getRandomIntInclusive(0, animations.length - 1 )]}`;
+//     })
+// }
+
+    function setAnimation(item) {
+
+        item.style.animationDuration = `${getAnimationDuration()}s`;
+        item.style.animationName = `${animations[getRandomIntInclusive(0, animations.length - 1 )]}`;
+
+    }
 
 // setTimeout(() => {
 //     setAnimations();
