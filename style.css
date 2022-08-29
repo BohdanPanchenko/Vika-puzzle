@@ -54,7 +54,9 @@ img:first-child {}
 
 .item {
     cursor: pointer;
-    user-select: none;
+    user-select: none;  
+    will-change: transform, filter, opacity;
+    transform: translateZ(0);
 }
 
 .pc-icon {
