@@ -120,6 +120,9 @@ function renderItems() {
         const width = wrapper.offsetWidth;
         const height = wrapper.offsetHeight;
 
+        const wrapperX = wrapper.getBoundingClientRect().left;
+        const wrapperY = wrapper.getBoundingClientRect().top;
+
         // img.style.left = `${getRandomIntInclusive(0, width - maxItemLength*2)}px`;
         // img.style.top = `${getRandomIntInclusive(0, height - maxItemLength*2)}px`;
 
