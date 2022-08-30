@@ -111,7 +111,6 @@ function renderItems() {
     for (let i = 0; i < rowNumber * columnNumber; i++) {
         const img = new Image();
         const wrapper = document.querySelector('.wrapper');
-        img.src = './images/' + (i + 1) + '.png';
         img.style.position = 'absolute';
         img.isFreezed = false;
         // const width = window.innerWidth;
@@ -133,9 +132,12 @@ function renderItems() {
         img.style.top = `${getRandomIntInclusive(-wrapperY , height + (window.innerHeight - ( wrapperY + height)) - 160)}px`;
 
         img.classList.add('item');
-        setAnimation(img);
-        document.querySelector('.wrapper').appendChild(img);
         images.push(img);
+        img.onload = function () {
+        setAnimation(img);
+        wrapper.appendChild(img);
+        }
+        img.src = './images/' + (i + 1) + '.png';
     }
 
 //     setTimeout(() => {
