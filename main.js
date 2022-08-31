@@ -128,7 +128,7 @@ function renderItems() {
 //         img.style.left = `${getRandomIntInclusive(-500, width + 300 )}px`;
 //         img.style.top = `${getRandomIntInclusive(-100, height )}px`;
 
-        img.style.left = `${getRandomIntInclusive(-width + 50, (window.innerWidth - width) -150)}px`;
+        img.style.left = `${getRandomIntInclusive(-wrapperX + 50, (window.innerWidth - width) -150)}px`;
         img.style.top = `${getRandomIntInclusive(-wrapperY , height + (window.innerHeight - ( wrapperY + height)) - 160)}px`;
 
         img.classList.add('item');
